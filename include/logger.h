@@ -1,3 +1,4 @@
+#pragma once 
 #include<iostream>
 #include"log_output.h"
 #include"log_format.h"
