@@ -10,11 +10,11 @@ Logger::Logger()
 Logger::~Logger()
 {
     std::cout<<"delete output_"<<std::endl;
-    delete output_;
-    output_=nullptr;
+    //delete output_;
+    //output_=nullptr;
     std::cout<<"delete formater_"<<std::endl;
-    delete formater_;
-    formater_ = nullptr;
+    //delete formater_;
+    //formater_ = nullptr;
     std::cout<<"Drop Logger"<<std::endl;
 }
 
@@ -47,11 +47,11 @@ void Logger::Write(XLog level,
     output_->Output(str);
 }
 
-void Logger::SetOutput(LogOutput* out){
-    output_=out;
+void Logger::SetOutput(std::unique_ptr<LogOutput> out){
+    output_=move(out);
 }
-void Logger::SetFormater(LogFormat* formater){
-    formater_ = formater;
+void Logger::SetFormater(std::unique_ptr<LogFormat> formater){
+    formater_ = move(formater);
 }
 void Logger::SetLevel(XLog level){
     log_level_=level;

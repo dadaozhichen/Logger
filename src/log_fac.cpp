@@ -25,18 +25,18 @@ void LogFac::Init(const std::string& con_file)
         log_format = conf.Get("log_format");
     }
     if(log_format=="xml")
-        logger_.SetFormater(new XmlLogFormat);
+        logger_.SetFormater(make_unique<XmlLogFormat>());
     else if(log_format=="x")
-        logger_.SetFormater(new XLogFormat);
+        logger_.SetFormater(make_unique<XLogFormat>());
     if(log_type=="file")
     {
         if(log_file.empty()) log_file=LOGFILE;
-        auto fout = new LogFileOutput();
+        auto fout = make_unique<LogFileOutput>();
         if(fout->Open(log_file))
         {
             std::cerr<<"failed"<<std::endl;
         }
-        logger_.SetOutput(fout);
+        logger_.SetOutput(move(fout));
         if(log_level=="debug")
         {
             logger_.SetLevel(XLog::DEBUG);
@@ -55,6 +55,6 @@ void LogFac::Init(const std::string& con_file)
         }
     }
     else{
-        logger_.SetOutput(new LogConsoleOutput);
+        logger_.SetOutput(make_unique<LogConsoleOutput>());
     }
 }
